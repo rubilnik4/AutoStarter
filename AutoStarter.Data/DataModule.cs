@@ -1,6 +1,7 @@
 using AutoStarter.Configuration;
 using AutoStarter.Configuration.Configs;
 using AutoStarter.Data.Repositories;
+using AutoStarter.Data.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -29,6 +30,6 @@ public class DataModule : IModule
         using var scope = containerProvider.CreateScope();
         var ctx = scope.Resolve<AutoStarterDbContext>();
         ctx.Database.Migrate();
-        //Seed.DataSeeder.SeedIfEmpty(ctx);
+        DataSeeder.Seed(ctx);
     }
 }

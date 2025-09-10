@@ -9,6 +9,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.9" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.9" />
       <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.9" />
@@ -22,6 +26,12 @@
     <ItemGroup>
       <ProjectReference Include="..\AutoStarter.Data\AutoStarter.Data.csproj" />
       <ProjectReference Include="..\AutoStarter.Modules.Sales\AutoStarter.Modules.Sales.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
