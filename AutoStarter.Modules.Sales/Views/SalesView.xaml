@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:AutoStarter.Modules.Sales.ViewModels"
-             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             xmlns:behaviours="clr-namespace:AutoStarter.Modules.Sales.Behaviours"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:SalesViewModel, IsDesignTimeCreatable=True}">
- <DockPanel Margin="12">
+  <DockPanel Margin="12">
     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
       <TextBlock Text="Год:" VerticalAlignment="Center"/>
       <ComboBox Width="100" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}"/>
@@ -17,48 +17,163 @@
       <Button Content="Обновить" Command="{Binding RefreshCommand}" Margin="12,0,0,0"/>
       <Button Content="Экспорт в Excel" Command="{Binding ExportCommand}" Margin="12,0,0,0"/>
     </StackPanel>
-
+    
     <DataGrid ItemsSource="{Binding MonthlyModelSales}" AutoGenerateColumns="False" CanUserAddRows="False" 
               Margin="0,12,0,0" IsReadOnly="True">
       <DataGrid.Resources>
-        <Style TargetType="DataGridCell">
+        <Style x:Key="HighlightCell" TargetType="DataGridCell">
+          <Setter Property="behaviours:HighlightBehaviour.Threshold" Value="25000000"/>
           <Style.Triggers>
-            <DataTrigger Binding="{Binding}" Value="{x:Null}"/>
+            <Trigger Property="behaviours:HighlightBehaviour.IsOverThreshold" Value="True">
+              <Setter Property="Background" Value="#FFFDE9E9"/>
+              <Setter Property="Foreground" Value="#C62828"/>
+              <Setter Property="FontWeight" Value="SemiBold"/>
+            </Trigger>
           </Style.Triggers>
         </Style>
-      </DataGrid.Resources>
-      <DataGrid.Columns>
-        <DataGridTextColumn Header="Модель" Binding="{Binding ModelName}" Width="*" />
-        <DataGridTextColumn Header="Янв" Binding="{Binding M01,StringFormat=N0}">
-          <DataGridTextColumn.ElementStyle>
-            <Style TargetType="TextBlock">
-              <Style.Triggers>
-                <DataTrigger Binding="{Binding M01}" Value="{x:Static sys:Double.NaN}"/>
-                <DataTrigger Binding="{Binding M01}" Value="{x:Null}"/>
-                <DataTrigger Binding="{Binding M01}" Value="0"/>
-                <DataTrigger Binding="{Binding M01}" Value="{x:Static sys:Double.NaN}"/>
-                <DataTrigger Binding="{Binding M01, Converter={StaticResource GreaterThanConverter}, ConverterParameter=25000000}" Value="True">
-                  <Setter Property="Background" Value="#FFFDE9E9"/>
-                  <Setter Property="Foreground" Value="#C62828"/>
-                  <Setter Property="FontWeight" Value="SemiBold"/>
-                </DataTrigger>
-              </Style.Triggers>
-            </Style>
-          </DataGridTextColumn.ElementStyle>
-        </DataGridTextColumn>
         
-        <DataGridTextColumn Header="Фев" Binding="{Binding M02,StringFormat=N0}"/>
-        <DataGridTextColumn Header="Мар" Binding="{Binding M03,StringFormat=N0}"/>
-        <DataGridTextColumn Header="Апр" Binding="{Binding M04,StringFormat=N0}"/>
-        <DataGridTextColumn Header="Май" Binding="{Binding M05,StringFormat=N0}"/>
-        <DataGridTextColumn Header="Июн" Binding="{Binding M06,StringFormat=N0}"/>
-        <DataGridTextColumn Header="Июл" Binding="{Binding M07,StringFormat=N0}"/>
-        <DataGridTextColumn Header="Авг" Binding="{Binding M08,StringFormat=N0}"/>
-        <DataGridTextColumn Header="Сен" Binding="{Binding M09,StringFormat=N0}"/>
-        <DataGridTextColumn Header="Окт" Binding="{Binding M10,StringFormat=N0}"/>
-        <DataGridTextColumn Header="Ноя" Binding="{Binding M11,StringFormat=N0}"/>
-        <DataGridTextColumn Header="Дек" Binding="{Binding M12,StringFormat=N0}"/>
-      </DataGrid.Columns>
+        <Style x:Key="CellTextRight" TargetType="TextBlock">
+          <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+      </DataGrid.Resources>
+      
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Модель"
+                            Binding="{Binding ModelName}"
+                            Width="*" />
+
+        <DataGridTextColumn Header="Янв"
+                            Binding="{Binding M01, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M01}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Фев"
+                            Binding="{Binding M02, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M02}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Мар"
+                            Binding="{Binding M03, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M03}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Апр"
+                            Binding="{Binding M04, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M04}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Май"
+                            Binding="{Binding M05, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M05}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Июн"
+                            Binding="{Binding M06, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M06}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Июл"
+                            Binding="{Binding M07, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M07}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Авг"
+                            Binding="{Binding M08, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M08}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Сен"
+                            Binding="{Binding M09, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M09}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Окт"
+                            Binding="{Binding M10, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M10}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Ноя"
+                            Binding="{Binding M11, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M11}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Дек"
+                            Binding="{Binding M12, StringFormat=N0}"
+                            ElementStyle="{StaticResource CellTextRight}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource HighlightCell}">
+              <Setter Property="behaviours:HighlightBehaviour.Value"
+                      Value="{Binding M12}"/>
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+        </DataGrid.Columns>
     </DataGrid>
   </DockPanel>
 </UserControl>
