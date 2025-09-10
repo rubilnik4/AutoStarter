@@ -6,4 +6,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\AutoStarter.Data\AutoStarter.Data.csproj" />
+      <ProjectReference Include="..\AutoStarter.Models\AutoStarter.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ClosedXML" Version="0.105.0" />
+    </ItemGroup>
+
 </Project>

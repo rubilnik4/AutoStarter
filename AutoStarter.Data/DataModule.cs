@@ -1,5 +1,6 @@
 using AutoStarter.Configuration;
 using AutoStarter.Configuration.Configs;
+using AutoStarter.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -20,6 +21,7 @@ public class DataModule : IModule
 
             return new AutoStarterDbContext(builder.Options);
         });
+        containerRegistry.Register<ICarSalesRepository, CarSalesRepository>();
     }
 
     public void OnInitialized(IContainerProvider containerProvider)

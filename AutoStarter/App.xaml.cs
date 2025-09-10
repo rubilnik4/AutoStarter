@@ -1,5 +1,6 @@
 ﻿
 using System.Windows;
+using AutoStarter.Application;
 using AutoStarter.Data;
 using AutoStarter.Modules.Sales;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ public partial class App : PrismApplication
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
     {
         moduleCatalog.AddModule<DataModule>();
+        moduleCatalog.AddModule<ApplicationModule>();
         moduleCatalog.AddModule<SalesModule>();
     }
     

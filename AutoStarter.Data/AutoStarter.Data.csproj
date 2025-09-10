@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AutoStarter.Configuration\AutoStarter.Configuration.csproj" />
+      <ProjectReference Include="..\AutoStarter.Models\AutoStarter.Models.csproj" />
     </ItemGroup>
 
 </Project>
